@@ -1,0 +1,20 @@
+@model Product
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="row g-4">
+    <div class="col-lg-6">
+        <img src="@(Model.ImageUrl ?? "https://placehold.co/900x600?text=Product")" class="img-fluid rounded border" alt="@Model.Name" />
+    </div>
+    <div class="col-lg-6">
+        <span class="badge text-bg-secondary">@Model.Category?.Name</span>
+        <h1 class="mt-3">@Model.Name</h1>
+        <p class="fs-3 fw-bold text-primary">@Model.Price.ToString("N0") VND</p>
+        <p>@Model.Description</p>
+        <p><strong>So luong con:</strong> @Model.Quantity</p>
+        <a asp-controller="Cart" asp-action="Add" asp-route-id="@Model.Id" class="btn btn-primary">Them vao gio hang</a>
+        <a asp-action="Index" class="btn btn-outline-secondary">Tiep tuc mua</a>
+    </div>
+</div>

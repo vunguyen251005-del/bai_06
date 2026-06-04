@@ -1,0 +1,15 @@
+bin/
+obj/
+.vs/
+.vscode/
+.tools/
+DataProtectionKeys/
+*.user
+*.suo
+*.log
+run.err
+run.log
+run-host.log
+app.db
+app.db-*
+wwwroot/uploads/

@@ -7,20 +7,29 @@ namespace ThuongMaiDienTu.Data;
 public static class DbInitializer
 {
     public const string AdminRole = "Admin";
-    public const string CustomerRole = "Customer";
+    public const string MemberRole = "Member";
     public const string AdminEmail = "admin@shop.local";
     public const string AdminPassword = "Admin@123";
+    public const string MemberEmail = "member@shop.local";
+    public const string MemberPassword = "Member@123";
 
     public static async Task SeedAsync(IServiceProvider services)
     {
         using var scope = services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
         var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
-        await context.Database.MigrateAsync();
+        if (context.Database.ProviderName?.Contains("Sqlite", StringComparison.OrdinalIgnoreCase) == true)
+        {
+            await context.Database.EnsureCreatedAsync();
+        }
+        else
+        {
+            await context.Database.MigrateAsync();
+        }
 
-        foreach (var role in new[] { AdminRole, CustomerRole })
+        foreach (var role in new[] { AdminRole, MemberRole })
         {
             if (!await roleManager.RoleExistsAsync(role))
             {
@@ -31,11 +40,13 @@ public static class DbInitializer
         var admin = await userManager.FindByEmailAsync(AdminEmail);
         if (admin is null)
         {
-            admin = new IdentityUser
+            admin = new ApplicationUser
             {
                 UserName = AdminEmail,
                 Email = AdminEmail,
-                EmailConfirmed = true
+                EmailConfirmed = true,
+                FullName = "Quan tri vien",
+                Address = "TechStore"
             };
             await userManager.CreateAsync(admin, AdminPassword);
         }
@@ -43,6 +54,25 @@ public static class DbInitializer
         if (!await userManager.IsInRoleAsync(admin, AdminRole))
         {
             await userManager.AddToRoleAsync(admin, AdminRole);
+        }
+
+        var member = await userManager.FindByEmailAsync(MemberEmail);
+        if (member is null)
+        {
+            member = new ApplicationUser
+            {
+                UserName = MemberEmail,
+                Email = MemberEmail,
+                EmailConfirmed = true,
+                FullName = "Thanh vien mau",
+                Address = "Ho Chi Minh"
+            };
+            await userManager.CreateAsync(member, MemberPassword);
+        }
+
+        if (!await userManager.IsInRoleAsync(member, MemberRole))
+        {
+            await userManager.AddToRoleAsync(member, MemberRole);
         }
 
         if (!await context.Categories.AnyAsync())

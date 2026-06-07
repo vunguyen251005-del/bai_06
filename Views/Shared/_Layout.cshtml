@@ -28,7 +28,10 @@
                         @if (User.IsInRole(ThuongMaiDienTu.Data.DbInitializer.AdminRole))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Index">Quan ly san pham</a>
+                                <a class="nav-link text-dark" asp-area="Admin" asp-controller="Products" asp-action="Index">Quan ly san pham</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="Admin" asp-controller="Categories" asp-action="Index">Quan ly danh muc</a>
                             </li>
                         }
                     </ul>

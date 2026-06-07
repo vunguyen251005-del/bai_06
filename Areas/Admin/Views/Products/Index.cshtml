@@ -1,0 +1,38 @@
+@model IEnumerable<Product>
+
+@{
+    ViewData["Title"] = "Quan ly san pham";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Quan ly san pham</h1>
+    <a asp-action="Create" class="btn btn-primary">Them san pham</a>
+</div>
+
+<table class="table table-striped align-middle">
+    <thead>
+        <tr>
+            <th>San pham</th>
+            <th>Danh muc</th>
+            <th class="text-end">Gia</th>
+            <th class="text-center">Ton kho</th>
+            <th class="text-end">Thao tac</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Name</td>
+            <td>@item.Category?.Name</td>
+            <td class="text-end">@item.Price.ToString("N0") VND</td>
+            <td class="text-center">@item.Quantity</td>
+            <td class="text-end">
+                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">Chi tiet</a>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">Sua</a>
+                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Xoa</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

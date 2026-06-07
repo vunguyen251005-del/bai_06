@@ -1,0 +1,18 @@
+@model Product
+
+@{
+    ViewData["Title"] = "Cap nhat san pham";
+}
+
+<h1 class="h3 mb-3">Cap nhat san pham</h1>
+<form asp-action="Edit" method="post" class="card card-body">
+    <partial name="_Form" model="Model" />
+    <div class="mt-4">
+        <button type="submit" class="btn btn-primary">Luu thay doi</button>
+        <a asp-action="Index" class="btn btn-outline-secondary">Quay lai</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

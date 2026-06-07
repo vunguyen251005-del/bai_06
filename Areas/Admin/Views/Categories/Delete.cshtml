@@ -1,0 +1,30 @@
+@model Category
+
+@{
+    ViewData["Title"] = "Xoa danh muc";
+}
+
+<h1 class="h3 mb-3">Xoa danh muc</h1>
+<div class="alert alert-warning">
+    Ban co chac muon xoa danh muc <strong>@Model.Name</strong>?
+    Tat ca san pham thuoc danh muc nay cung se bi xoa.
+</div>
+
+@if (Model.Products.Any())
+{
+    <div class="mb-3">
+        <h2 class="h5">San pham se bi xoa</h2>
+        <ul>
+        @foreach (var product in Model.Products)
+        {
+            <li>@product.Name</li>
+        }
+        </ul>
+    </div>
+}
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Xoa</button>
+    <a asp-action="Index" class="btn btn-outline-secondary">Huy</a>
+</form>
